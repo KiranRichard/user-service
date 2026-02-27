@@ -1,1 +1,1 @@
-# user-service
+# authorizedUser-service
