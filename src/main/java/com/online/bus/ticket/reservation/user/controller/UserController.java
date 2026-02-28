@@ -2,6 +2,7 @@ package com.online.bus.ticket.reservation.user.controller;
 
 import com.online.bus.ticket.reservation.user.model.AuthorizedUser;
 import com.online.bus.ticket.reservation.user.request.UserRequest;
+import com.online.bus.ticket.reservation.user.request.UserStatusUpdateRequest;
 import com.online.bus.ticket.reservation.user.service.UserService;
 import com.online.bus.ticket.reservation.user.validator.UserRequestValidator;
 import lombok.AllArgsConstructor;
@@ -52,5 +53,12 @@ public class UserController {
         log.info("Inside UserController deleteUser Method with userId: {}", userId);
         userRequestValidator.validateUserId(userId);
         userService.deleteUser(userId);
+    }
+
+    @PostMapping("/status-update")
+    public String userStatusUpdate(@RequestBody UserStatusUpdateRequest userStatusUpdateRequest) {
+        log.info("Inside UserController userStatusUpdate Method");
+        userRequestValidator.validateUserStatusUpdateRequest(userStatusUpdateRequest);
+        return userService.userStatusUpdate(userStatusUpdateRequest);
     }
 }

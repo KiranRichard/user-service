@@ -6,6 +6,7 @@ import com.online.bus.ticket.reservation.user.exception.UserException;
 import com.online.bus.ticket.reservation.user.model.AuthorizedUser;
 import com.online.bus.ticket.reservation.user.repository.UserRepository;
 import com.online.bus.ticket.reservation.user.request.UserRequest;
+import com.online.bus.ticket.reservation.user.request.UserStatusUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class UserService {
 
     public AuthorizedUser editUser(UserRequest userRequest, long userId) {
         AuthorizedUser authorizedUser = userRepository.findById(userId).orElse(null);
-        if (Objects.isNull(userId)){
+        if (Objects.isNull(authorizedUser)){
             throw new UserException("UserId is not present and unable to update");
         }
         authorizedUser.setPassword(userRequest.getPassword());
@@ -61,5 +62,15 @@ public class UserService {
 
     public List<AuthorizedUser> getUsers() {
         return (List<AuthorizedUser>) userRepository.findAll();
+    }
+
+    public String userStatusUpdate(UserStatusUpdateRequest userStatusUpdateRequest) {
+        AuthorizedUser authorizedUser = userRepository.findById(userStatusUpdateRequest.getUserId()).orElse(null);
+        if (Objects.isNull(authorizedUser)){
+            throw new UserException("User is not present");
+        }
+        authorizedUser.setStatus(UserStatus.findByName(userStatusUpdateRequest.getStatus()).name());
+        userRepository.save(authorizedUser);
+        return "User status updated successfully";
     }
 }

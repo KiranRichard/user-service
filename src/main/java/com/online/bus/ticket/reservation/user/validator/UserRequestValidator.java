@@ -4,6 +4,7 @@ import com.online.bus.ticket.reservation.user.enums.UserRole;
 import com.online.bus.ticket.reservation.user.enums.UserStatus;
 import com.online.bus.ticket.reservation.user.exception.RequiredFieldsMissingException;
 import com.online.bus.ticket.reservation.user.request.UserRequest;
+import com.online.bus.ticket.reservation.user.request.UserStatusUpdateRequest;
 import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,8 +17,8 @@ public class UserRequestValidator {
 
     public void validateUserRequest(UserRequest userRequest) {
         if (Objects.isNull(userRequest)) {
-            log.info("[Error]: Invalid user request: {}", userRequest);
-            throw new RequiredFieldsMissingException("Invalid user request: {}"+ userRequest);
+            log.info("[Error]: User request is null");
+            throw new RequiredFieldsMissingException("User request is null");
         }
         if (StringUtils.isBlank(userRequest.getUsername())) {
             log.info("[Error]: Invalid username field in user request: {}", userRequest);
@@ -49,6 +50,21 @@ public class UserRequestValidator {
         if (userId<=0) {
             log.info("[Error]: Invalid user id field in user request: {}", userId);
             throw new RequiredFieldsMissingException("Invalid user id field in user request: {}"+ userId);
+        }
+    }
+
+    public void validateUserStatusUpdateRequest(UserStatusUpdateRequest userStatusUpdateRequest) {
+        if (Objects.isNull(userStatusUpdateRequest)) {
+            log.info("[Error]: UserStatusUpdateRequest is null");
+            throw new RequiredFieldsMissingException("Invalid UserStatusUpdateRequest is null");
+        }
+        if (userStatusUpdateRequest.getUserId()<=0) {
+            log.info("[Error]: Invalid user id field in user update request: {}", userStatusUpdateRequest);
+            throw new RequiredFieldsMissingException("Invalid user id field in user update request: {}"+ userStatusUpdateRequest);
+        }
+        if (StringUtils.isBlank(userStatusUpdateRequest.getStatus()) || Objects.isNull(UserStatus.findByName(userStatusUpdateRequest.getStatus().toUpperCase()))) {
+            log.info("[Error]: Invalid user status update request: {}", userStatusUpdateRequest);
+            throw new RequiredFieldsMissingException("Invalid user status update request: {}"+ userStatusUpdateRequest);
         }
     }
 }
