@@ -26,17 +26,17 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@RequestBody AuthRequest request){
 
-        if (StringUtils.equals(request.getUserName(), "admin") && StringUtils.equalsIgnoreCase(request.getPassword(), "password")) {
+        /*if (StringUtils.equals(request.getUserName(), "admin") && StringUtils.equalsIgnoreCase(request.getPassword(), "password")) {
             log.info("User authenticated");
         }
-        else {
+        else {*/
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.getUserName(),
                             request.getPassword()
                     )
             );
-        }
-        return jwtService.generateToken(request.getUserName(), request.getRole());
+        //}
+        return jwtService.generateToken(request.getUserName());
     }
 }

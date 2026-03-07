@@ -66,7 +66,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(SECRET.getBytes());
     }
 
-    public String generateToken(String username, String role) {
+    public String generateToken(String username) {
 
         return Jwts.builder()
                 .setSubject(username)

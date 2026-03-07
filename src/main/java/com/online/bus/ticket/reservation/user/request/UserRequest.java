@@ -6,7 +6,7 @@ import lombok.Data;
 public class UserRequest {
 
     private String username;
-    private String password; //need to hash and encode
+    private String password;
     private String userFirstName;
     private String userLastName;
     private String role;
