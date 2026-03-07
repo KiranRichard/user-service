@@ -18,7 +18,7 @@ public class AuthorizedUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userId;
     private String username;
-    private String password; //need to hash and encode
+    private String password;
     private String userFirstName;
     private String userLastName;
     private String role;

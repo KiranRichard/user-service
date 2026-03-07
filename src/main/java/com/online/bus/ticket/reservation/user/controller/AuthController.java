@@ -3,7 +3,6 @@ package com.online.bus.ticket.reservation.user.controller;
 import com.online.bus.ticket.reservation.user.request.AuthRequest;
 import com.online.bus.ticket.reservation.user.service.JwtService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,18 +24,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(@RequestBody AuthRequest request){
-
-        /*if (StringUtils.equals(request.getUserName(), "admin") && StringUtils.equalsIgnoreCase(request.getPassword(), "password")) {
-            log.info("User authenticated");
-        }
-        else {*/
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getUserName(),
-                            request.getPassword()
-                    )
-            );
-        //}
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUserName(),
+                        request.getPassword()
+                ));
         return jwtService.generateToken(request.getUserName());
     }
 }
