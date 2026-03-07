@@ -9,6 +9,7 @@ import com.online.bus.ticket.reservation.user.request.UserRequest;
 import com.online.bus.ticket.reservation.user.request.UserStatusUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,11 +21,12 @@ import java.util.Objects;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public AuthorizedUser createUser(UserRequest userRequest){
         AuthorizedUser authorizedUser = new AuthorizedUser();
         authorizedUser.setUsername(userRequest.getUsername());
-        authorizedUser.setPassword(userRequest.getPassword());
+        authorizedUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         authorizedUser.setUserFirstName(userRequest.getUserFirstName());
         authorizedUser.setUserLastName(userRequest.getUserLastName());
         authorizedUser.setRole(UserRole.findByName(userRequest.getRole()).name());
@@ -45,7 +47,7 @@ public class UserService {
         if (Objects.isNull(authorizedUser)){
             throw new UserException("UserId is not present and unable to update");
         }
-        authorizedUser.setPassword(userRequest.getPassword());
+        authorizedUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         authorizedUser.setUserFirstName(userRequest.getUserFirstName());
         authorizedUser.setUserLastName(userRequest.getUserLastName());
         authorizedUser.setRole(UserRole.findByName(userRequest.getRole().toUpperCase()).name());
