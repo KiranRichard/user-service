@@ -23,7 +23,7 @@ public class JwtService {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60*24*7))
                 //1000ms = 1 sec, 60 seconds = 1 minute, 60 minutes = 1hour
                 //for updating it to a day multiply by 24
                 //.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60*24))
